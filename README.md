@@ -1,2 +1,3 @@
-# trackertimer
-Time web tracking
+# trackerTimer  
+
+Website tracking timer.  

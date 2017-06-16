@@ -38,8 +38,6 @@ EXPOSE 3417
 # Run systemd
 CMD [ "/usr/sbin/init" ]
 
-
-
 ######
 #
 # docker build -t nothingworksright/trackertimer:0.0.1 .
@@ -53,5 +51,3 @@ CMD [ "/usr/sbin/init" ]
 # docker rmi nothingworksright/trackertimer:0.0.1
 #
 ######
-
-

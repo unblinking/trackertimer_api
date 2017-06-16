@@ -7,16 +7,9 @@
  */
 
 /**
- * Require the 3rd party modules that will be used.
- * @see {@link https://github.com/petkaantonov/bluebird bluebird}
- */
-const P = require("bluebird");
-
-/**
  * Require the local modules/functions that will be used.
  */
 const spawns = require("./spawns.js");
-
 
 spawns.spawner({
   "command": "phantomjs",
