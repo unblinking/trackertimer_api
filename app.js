@@ -13,5 +13,5 @@ const spawns = require("./spawns.js");
 
 spawns.spawner({
   "command": "phantomjs",
-  "argsArray": ["confess.js", "http://www.google.com", "performance"]
+  "argsArray": ["confess.js", "http://www.xfinity.com", "performance"]
 });

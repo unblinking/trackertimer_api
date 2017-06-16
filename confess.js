@@ -22,7 +22,7 @@ var confess = {
                 desc: 'the URL of the app to cache'
             }, {
                 name: 'task',
-                def: 'appcache',
+                def: 'performance',
                 req: false,
                 desc: 'the task to perform',
                 oneof: ['performance', 'appcache', 'cssproperties']
@@ -422,7 +422,7 @@ var confess = {
     },
 
     processArgs: function (config, contract) {
-        var a = 0;
+        var a = 1;
         var ok = true;
         contract.forEach(function(argument) {
             if (a < system.args.length) {
