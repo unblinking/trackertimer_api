@@ -1,0 +1,18 @@
+{
+    "task": "appcache",
+    "userAgent": "default",
+    "userAgentAliases": {
+        "iphone": "Mozilla/5.0 (iPhone; ...",
+        "android": "Mozilla/5.0 (Linux; U; Android ...",
+        "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X ..."
+    },
+    "wait": 0,
+    "consolePrefix": "#",
+    "verbose": true,
+    "appcache": {
+        "urlsFromDocument": true,
+        "urlsFromRequests": false,
+        "cacheFilter": ".*",
+        "networkFilter": null
+    }
+}

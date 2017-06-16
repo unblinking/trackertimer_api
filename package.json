@@ -1,0 +1,19 @@
+{
+  "name": "loading",
+  "version": "0.0.1",
+  "description": "web front-end for phantomjs with confessjs",
+  "main": "app.js",
+  "author": "jmg1138 https://github.com/jmg1138",
+  "license": "MIT",
+  "readme": "README.md",
+  "dependencies": {
+    "bluebird": "3.5.0"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "jshint": "2.9.4"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=trackerTimer
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/trackertimer
+ExecStart=/usr/bin/node /usr/local/trackertimer/app.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
