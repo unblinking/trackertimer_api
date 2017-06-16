@@ -26,7 +26,7 @@ RUN tar -xjvf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/
 RUN ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
 
 # Install confessjs - https://github.com/jamesgpearce/confess
-RUN wget https://raw.githubusercontent.com/jamesgpearce/confess/master/confess.js
+# RUN wget https://raw.githubusercontent.com/jamesgpearce/confess/master/confess.js
 
 # Prepare the systemd based service
 COPY trackertimer.service /lib/systemd/system/trackertimer.service
@@ -43,6 +43,8 @@ CMD [ "/usr/sbin/init" ]
 # docker build -t nothingworksright/trackertimer:0.0.1 .
 #
 # docker run --detach --privileged --name trackertimer nothingworksright/trackertimer:0.0.1
+#
+# docker exec trackertimer journalctl -u trackertimer.service -b
 #
 # docker stop trackertimer
 #
