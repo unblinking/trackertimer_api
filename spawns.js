@@ -112,31 +112,18 @@ const spawns = {
         let output = {};
         proc.stdout.on("data", data => {
           let string = data.toString("utf8");
-          let lines = string.split(/(\r?\n)/g);
+          let lines = string.split(/\r?\n|\r/g); // @see {@link https://stackoverflow.com/a/10805292 stackoverflow}
           for (var i = 0; i < lines.length; i++) {
-            if (lines[i] !== "\r\n" && lines[i] !== "\n" && lines[i] !== "") {
+            if (lines[i] !== "") {
               output[count] = lines[i];
               count++;
             }
           }
         });
         proc.stderr.on("data", data => reject(data));
-        //proc.on("close", code => logOutput(`Closed with code ${code}`));
-        //proc.on("exit", code => logOutput(`Exited with code ${code}`));
         proc.on("exit", () => resolve(output));
       });
     }
-
-    /**
-     * Log data to the console, after removing newlines.
-     * @param {*} data
-     */
-    /*
-    function logOutput(data) {
-      data = data.toString("utf8").replace(/\n$/, ''); // Remove newlines
-      console.log(data);
-    }
-    */
 
   }
 
