@@ -114,7 +114,7 @@ const spawns = {
           let string = data.toString("utf8");
           let lines = string.split(/(\r?\n)/g);
           for (var i = 0; i < lines.length; i++) {
-            if (lines[i] != "\r\n") {
+            if (lines[i] !== "\r\n" && lines[i] !== "\n") {
               output[count] = lines[i];
               count++;
             }
