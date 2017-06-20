@@ -7,6 +7,12 @@
  */
 
 /**
+ * Invoke strict mode for the entire script.
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode Strict mode}
+ */
+"use strict";
+
+/**
  * Require the 3rd party modules that will be used.
  * @see {@link https://github.com/petkaantonov/bluebird bluebird}
  * @see {@link https://nodejs.org/api/child_process.html child process}
@@ -38,11 +44,14 @@ const spawns = {
      * data.command isn't defined, and then spawn the process, and then handle
      * the process output.
      */
-    handleNoData(data)
-      .then(data => handleNoCommand(data))
-      .then(data => spawnTheCommand(data))
-      .then(proc => handleProcessOutput(proc))
-      .catch(err => console.log(err.message));
+    return new P((resolve, reject) =>
+      handleNoData(data)
+        .then(data => handleNoCommand(data))
+        .then(data => spawnTheCommand(data))
+        .then(proc => handleProcessOutput(proc))
+        .then(output => resolve(output))
+        .catch(err => reject(err))
+    );
 
     /**
      * Handle the case where data isn't defined.
@@ -95,26 +104,39 @@ const spawns = {
 
     /**
      * Handle the process output of the spawned child process.
-     * @param {*} proc 
+     * @param {*} proc
      */
     function handleProcessOutput(proc) {
-      return new P(resolve => {
-        proc.stdout.on("data", data => logOutput(data));
-        proc.stderr.on("data", data => logOutput(data));
-        proc.on("close", code => logOutput(`Closed with code ${code}`));
-        proc.on("exit", code => logOutput(`Exited with code ${code}`));
-        resolve();
+      return new P((resolve, reject) => {
+        let count = 0;
+        let output = {};
+        proc.stdout.on("data", data => {
+          let string = data.toString("utf8");
+          let lines = string.split(/(\r?\n)/g);
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i] != "\r\n") {
+              output[count] = lines[i];
+              count++;
+            }
+          }
+        });
+        proc.stderr.on("data", data => reject(data));
+        //proc.on("close", code => logOutput(`Closed with code ${code}`));
+        //proc.on("exit", code => logOutput(`Exited with code ${code}`));
+        proc.on("exit", () => resolve(output));
       });
     }
 
     /**
      * Log data to the console, after removing newlines.
-     * @param {*} data 
+     * @param {*} data
      */
+    /*
     function logOutput(data) {
       data = data.toString("utf8").replace(/\n$/, ''); // Remove newlines
       console.log(data);
     }
+    */
 
   }
 

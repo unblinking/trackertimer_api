@@ -1,13 +1,16 @@
 {
-  "name": "loading",
+  "name": "trackerTimer",
   "version": "0.0.1",
-  "description": "web front-end for phantomjs with confessjs",
+  "description": "Web front-end for phantomjs with confessjs",
   "main": "app.js",
   "author": "jmg1138 https://github.com/jmg1138",
   "license": "MIT",
   "readme": "README.md",
   "dependencies": {
-    "bluebird": "3.5.0"
+    "bluebird": "3.5.0",
+    "express": "4.15.2",
+    "helmet": "3.5.0",
+    "phantomjs-prebuilt": "2.1.14"
   },
   "devDependencies": {
     "eslint": "3.19.0",
