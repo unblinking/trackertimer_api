@@ -60,7 +60,9 @@ const router = (app) => {
       .then(output => {
         respond.success(res, "Here's the output in a json object.", output);
       })
-      .catch(err => respond.err(res, err));
+      .catch(err =>
+        respond.error(res, err)
+      );
     } else {
       respond.success(res, "This is the trackerTimer API server.", {
         headers: req.headers

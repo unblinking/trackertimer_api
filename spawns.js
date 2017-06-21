@@ -39,26 +39,25 @@ const spawns = {
   spawner: data => {
 
     /**
-     * Steps to spawn the child process.
-     * Handle the case where data isn't defined, and then handle the case where
-     * data.command isn't defined, and then spawn the process, and then handle
-     * the process output.
+     * 
      */
     return new P((resolve, reject) =>
-      handleNoData(data)
-        .then(data => handleNoCommand(data))
-        .then(data => spawnTheCommand(data))
+      handleNoDataProvided(data)
+        .then(data => handleNoCommandProvided(data))
+        .then(data => spawnTheCommandAsChildProcess(data))
         .then(proc => handleProcessOutput(proc))
+        .timeout( // @see {@link http://bluebirdjs.com/docs/api/timeout.html timeout}
+          10000 // 10,000 ms (10 seconds)
+        ) // If the process takes too long, reject with a TimeoutError.
         .then(output => resolve(output))
-        .catch(err => reject(err))
-    );
+        .catch(err => reject(err)));
 
     /**
      * Handle the case where data isn't defined.
      * Set the command and args to echo "No data provided" when spawned.
      * @param {Object} data
      */
-    function handleNoData(data) {
+    function handleNoDataProvided(data) {
       return new P(resolve => {
         if (!data) {
           data = {};
@@ -74,7 +73,7 @@ const spawns = {
      * Set the command and args to echo "No data provided" when spawned.
      * @param {Object} data
      */
-    function handleNoCommand(data) {
+    function handleNoCommandProvided(data) {
       return new P(resolve => {
         if (!data.command) {
           data.command = "echo";
@@ -88,7 +87,7 @@ const spawns = {
      * Spawn the command, using arguments only if they were provided.
      * @param {Object} data
      */
-    function spawnTheCommand(data) {
+    function spawnTheCommandAsChildProcess(data) {
       return new P(resolve => {
         if (!data.argsArray) {
           resolve(spawn(data.command, [], {

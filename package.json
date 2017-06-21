@@ -8,12 +8,13 @@
   "readme": "README.md",
   "dependencies": {
     "bluebird": "3.5.0",
-    "express": "4.15.2",
-    "helmet": "3.5.0",
+    "error-to-json": "1.1.0",
+    "express": "4.15.3",
+    "helmet": "3.6.1",
     "phantomjs-prebuilt": "2.1.14"
   },
   "devDependencies": {
-    "eslint": "3.19.0",
+    "eslint": "4.0.0",
     "jshint": "2.9.4"
   },
   "scripts": {

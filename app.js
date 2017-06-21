@@ -16,12 +16,9 @@
  * Require the 3rd party modules that will be used.
  * @see {@link https://github.com/expressjs/express Express}
  * @see {@link https://github.com/helmetjs Helmet}
- * @see {@link https://github.com/Medium/phantomjs phantomjs-prebuilt}
  */
 const express = require("express");
 const helmet = require("helmet");
-const path = require("path");
-const phantomjs = require("phantomjs-prebuilt");
 
 /**
  * Require the local modules that will be used.
