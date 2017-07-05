@@ -14,7 +14,7 @@ To generate a report, include a URL as a query string parameter. For example, to
 
 https://trackertimerapi.herokuapp.com/?url=https://www.github.com  
 
-:information_source: **Note**: *trackerTimer is an alpha, open-source project.*  
+ℹ **Note**: *trackerTimer is an alpha, open-source project.*  
 
 ## Show your support  
 
