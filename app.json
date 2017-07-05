@@ -3,5 +3,5 @@
   "description": "Website tracker timer.",
   "repository": "https://github.com/nothingworksright/trackertimer_api",
   "keywords": ["node", "website", "tracker", "timer"],
-  "success_url": "/?url=https://www.github.com",
+  "success_url": "/?url=https://www.github.com"
 }
