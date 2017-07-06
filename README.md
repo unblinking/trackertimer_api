@@ -1,4 +1,4 @@
-# ⏲ trackerTimer API Server  
+# ⏱ trackerTimer API Server  
 
 This is the source code repository for the trackerTimer API server.  
 
