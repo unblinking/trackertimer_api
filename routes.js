@@ -39,14 +39,6 @@ const router = express => {
    */
   express.get('/', (req, res) => {
     if (req.query.url !== undefined) {
-      /*
-      spawns.spawner({
-        'command': 'which',
-        'argsArray': [
-          'libfontconfig'
-        ]
-      })
-      */
       spawns.spawner({
         'command': phantomjs.path,
         'argsArray': [

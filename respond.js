@@ -11,7 +11,7 @@
  * Modules that will be used.
  * @see {@link https://github.com/tjmehta/error-to-json error-to-json}
  */
-const err2json = require('error-to-json')
+// const err2json = require('error-to-json')
 
 /**
  * Respond.
@@ -28,8 +28,8 @@ const respond = {
       .status(200)
       .json({
         'status': 'error',
-        'message': err.message,
-        'json': err2json(err)
+        'message': 'There was an error.' // ,
+        // 'json': err2json(err)
       }),
 
   /**
