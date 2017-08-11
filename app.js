@@ -67,7 +67,7 @@ function expressErrors (express) {
       res.status(500).send('Something broke!')
       console.log(err.message)
     })
-    express.on('error', err => console.log(err.message))
+    // express.on('error', err => console.log(err.message))
     resolve()
   })
 }

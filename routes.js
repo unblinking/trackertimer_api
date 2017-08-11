@@ -19,11 +19,11 @@ const spawns = require('./spawns.js')
 
 /**
  * Router
- * @param {object} app - The Express application instance.
+ * @param {object} express - The Expressjs instance.
  * @see {@link https://expressjs.com/en/guide/routing.html Express routing}
  * @see {@link http://expressjs.com/en/api.html Express API}
  */
-const router = (app) => {
+const router = express => {
   /**
    * GET request to the root route. Responds with a JSend-compliant response.
    * @function
@@ -37,8 +37,16 @@ const router = (app) => {
    *     }
    *   });
    */
-  app.get('/', (req, res) => {
+  express.get('/', (req, res) => {
     if (req.query.url !== undefined) {
+      /*
+      spawns.spawner({
+        'command': 'which',
+        'argsArray': [
+          'libfontconfig'
+        ]
+      })
+      */
       spawns.spawner({
         'command': phantomjs.path,
         'argsArray': [
@@ -50,9 +58,10 @@ const router = (app) => {
         .then(output => {
           respond.success(res, "Here's the output in a json object.", output)
         })
-        .catch(err =>
+        .catch(err => {
+          console.log(err)
           respond.error(res, err)
-        )
+        })
     } else {
       respond.success(res, 'This is the trackerTimer API server.', {
         headers: req.headers
@@ -61,9 +70,4 @@ const router = (app) => {
   })
 }
 
-/**
- * Assign our appRouter object to module.exports.
- * @see {@link https://nodejs.org/api/modules.html#modules_the_module_object Nodejs modules: The module object}
- * @see {@link https://nodejs.org/api/modules.html#modules_module_exports Nodejs modules: module exports}
- */
 module.exports = router
