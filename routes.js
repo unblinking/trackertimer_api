@@ -2,38 +2,28 @@
 
 /**
  * The application end points (routes) for the Grocereport API server.
- * @namespace routes
- * @author jmg1138 {@link https://github.com/jmg1138 jmg1138 on GitHub}
+ * @author jmg1138 {@link https://github.com/jmg1138 jmg1138}
  */
 
-/**
- * Invoke strict mode for the entire script.
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode Strict mode}
- */
-"use strict";
+'use strict'
 
 /**
- * Require the 3rd party modules that will be used.
+ * Modules that will be used.
+ * @see {@link https://nodejs.org/api/path.html path}
  * @see {@link https://github.com/Medium/phantomjs phantomjs-prebuilt}
  */
-const path = require("path");
-const phantomjs = require("phantomjs-prebuilt");
+const path = require('path')
+const phantomjs = require('phantomjs-prebuilt')
+const respond = require('./respond')
+const spawns = require('./spawns.js')
 
 /**
- * Require the local modules/functions that will be used.
- */
-const respond = require("./respond");
-const spawns = require("./spawns.js");
-
-/**
- * @namespace router
- * @memberof routes
+ * Router
  * @param {object} app - The Express application instance.
  * @see {@link https://expressjs.com/en/guide/routing.html Express routing}
  * @see {@link http://expressjs.com/en/api.html Express API}
  */
 const router = (app) => {
-
   /**
    * GET request to the root route. Responds with a JSend-compliant response.
    * @function
@@ -47,34 +37,33 @@ const router = (app) => {
    *     }
    *   });
    */
-  app.get("/", (req, res) => {
+  app.get('/', (req, res) => {
     if (req.query.url !== undefined) {
       spawns.spawner({
-        "command": phantomjs.path,
-        "argsArray": [
-          path.join(__dirname, "confess.js"),
+        'command': phantomjs.path,
+        'argsArray': [
+          path.join(__dirname, 'confess.js'),
           req.query.url,
-          "performance"
+          'performance'
         ]
       })
-      .then(output => {
-        respond.success(res, "Here's the output in a json object.", output);
-      })
-      .catch(err =>
-        respond.error(res, err)
-      );
+        .then(output => {
+          respond.success(res, "Here's the output in a json object.", output)
+        })
+        .catch(err =>
+          respond.error(res, err)
+        )
     } else {
-      respond.success(res, "This is the trackerTimer API server.", {
+      respond.success(res, 'This is the trackerTimer API server.', {
         headers: req.headers
-      });
+      })
     }
-  });
-
-};
+  })
+}
 
 /**
  * Assign our appRouter object to module.exports.
  * @see {@link https://nodejs.org/api/modules.html#modules_the_module_object Nodejs modules: The module object}
  * @see {@link https://nodejs.org/api/modules.html#modules_module_exports Nodejs modules: module exports}
  */
-module.exports = router;
+module.exports = router
