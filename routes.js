@@ -4,7 +4,7 @@
 
 /**
  * Application end points (routes) for the trackerTimer API server.
- * @author jmg1138 {@link https://github.com/jmg1138 jmg1138}
+ * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
 /**
@@ -17,6 +17,11 @@ const phantomjs = require('phantomjs-prebuilt')
 const respond = require('./respond')
 const spawns = require('./spawns.js')
 
+/**
+ * Handle a request to the root route.
+ * @param  {Object} req The expressjs request
+ * @param  {Object} res The expressjs response
+ */
 function rootRoute (req, res) {
   return new Promise(resolve => {
     respond.success(res, 'This is the trackerTimer API server.', {
@@ -26,6 +31,11 @@ function rootRoute (req, res) {
   })
 }
 
+/**
+ * Handle a request for a URL performance report.
+ * @param  {Object} req The expressjs request
+ * @param  {Object} res The expressjs response
+ */
 async function performanceReport (req, res) {
   let output = await spawns.spawner(
     phantomjs.path,

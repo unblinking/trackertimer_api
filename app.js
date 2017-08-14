@@ -4,7 +4,7 @@
 
 /**
  * Expressjs API for the trackerTimer.
- * @author jmg1138 {@link https://github.com/jmg1138 jmg1138}
+ * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
 /**
