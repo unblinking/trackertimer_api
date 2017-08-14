@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
+'use strict'
+
 /**
- * The application end points (routes) for the Grocereport API server.
+ * Application end points (routes) for the trackerTimer API server.
  * @author jmg1138 {@link https://github.com/jmg1138 jmg1138}
  */
-
-'use strict'
 
 /**
  * Modules that will be used.
@@ -39,14 +39,8 @@ const router = express => {
    */
   express.get('/', (req, res) => {
     if (req.query.url !== undefined) {
-      spawns.spawner({
-        'command': phantomjs.path,
-        'argsArray': [
-          path.join(__dirname, 'confess.js'),
-          req.query.url,
-          'performance'
-        ]
-      })
+      // spawns.spawner('node', ['--version'])
+      spawns.spawner(phantomjs.path, [path.join(__dirname, 'confess.js'), req.query.url, 'performance'])
         .then(output => {
           respond.success(res, "Here's the output in a json object.", output)
         })
