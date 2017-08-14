@@ -1,80 +1,57 @@
 #!/usr/bin/env node
 
+'use strict'
+
 /**
- * The application end points (routes) for the Grocereport API server.
- * @namespace routes
- * @author jmg1138 {@link https://github.com/jmg1138 jmg1138 on GitHub}
+ * Application end points (routes) for the trackerTimer API server.
+ * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
 /**
- * Invoke strict mode for the entire script.
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode Strict mode}
- */
-"use strict";
-
-/**
- * Require the 3rd party modules that will be used.
+ * Modules that will be used.
+ * @see {@link https://nodejs.org/api/path.html path}
  * @see {@link https://github.com/Medium/phantomjs phantomjs-prebuilt}
  */
-const path = require("path");
-const phantomjs = require("phantomjs-prebuilt");
+const path = require('path')
+const phantomjs = require('phantomjs-prebuilt')
+const respond = require('./respond')
+const spawns = require('./spawns.js')
 
 /**
- * Require the local modules/functions that will be used.
+ * Handle a request to the root route.
+ * @param  {Object} req The expressjs request
+ * @param  {Object} res The expressjs response
  */
-const respond = require("./respond");
-const spawns = require("./spawns.js");
+function rootRoute (req, res) {
+  return new Promise(resolve => {
+    respond.success(res, 'This is the trackerTimer API server.', {
+      headers: req.headers
+    })
+    resolve()
+  })
+}
 
 /**
- * @namespace router
- * @memberof routes
- * @param {object} app - The Express application instance.
- * @see {@link https://expressjs.com/en/guide/routing.html Express routing}
- * @see {@link http://expressjs.com/en/api.html Express API}
+ * Handle a request for a URL performance report.
+ * @param  {Object} req The expressjs request
+ * @param  {Object} res The expressjs response
  */
-const router = (app) => {
-
-  /**
-   * GET request to the root route. Responds with a JSend-compliant response.
-   * @function
-   * @memberof! routes.router
-   * @example
-   * const request = require("request");
-   * request("https://trackertimerapi.herokuapp.com/",
-   *   function(err, res, body) {
-   *     if (!err && res.statusCode == 200) {
-   *       console.log(body);
-   *     }
-   *   });
-   */
-  app.get("/", (req, res) => {
-    if (req.query.url !== undefined) {
-      spawns.spawner({
-        "command": phantomjs.path,
-        "argsArray": [
-          path.join(__dirname, "confess.js"),
-          req.query.url,
-          "performance"
-        ]
-      })
-      .then(output => {
-        respond.success(res, "Here's the output in a json object.", output);
-      })
-      .catch(err =>
-        respond.error(res, err)
-      );
-    } else {
-      respond.success(res, "This is the trackerTimer API server.", {
-        headers: req.headers
-      });
-    }
-  });
-
-};
+async function performanceReport (req, res) {
+  let output = await spawns.spawner(
+    phantomjs.path,
+    [path.join(__dirname, 'confess.js'), req.query.url, 'performance']
+  )
+  respond.success(res, "Here's the output in a json object.", output)
+}
 
 /**
- * Assign our appRouter object to module.exports.
- * @see {@link https://nodejs.org/api/modules.html#modules_the_module_object Nodejs modules: The module object}
- * @see {@link https://nodejs.org/api/modules.html#modules_module_exports Nodejs modules: module exports}
+ * Define the expressjs routes.
+ * @param {object} express - The expressjs instance.
  */
-module.exports = router;
+function router (express) {
+  express.get('/', (req, res) => {
+    if (req.query.url !== undefined) performanceReport(req, res)
+    else rootRoute(req, res)
+  })
+}
+exports.router = router

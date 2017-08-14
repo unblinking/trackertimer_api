@@ -3,56 +3,111 @@
 'use strict'
 
 /**
- * The trackerTimer.
- * @namespace trackertimer
- * @author jmg1138 {@link https://github.com/jmg1138 jmg1138 on GitHub}
+ * Expressjs API for the trackerTimer.
+ * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
 /**
- * Require the 3rd party modules that will be used.
- * @see {@link https://github.com/expressjs/express Express}
- * @see {@link https://github.com/helmetjs Helmet}
+ * Modules that will be used.
+ * @see {@link https://github.com/expressjs/cors cors}
+ * @see {@link https://github.com/expressjs/express express}
+ * @see {@link https://github.com/helmetjs helmet}
+ * @see {@link https://nodejs.org/api/http.html http}
  */
 const cors = require('cors')
-const express = require('express')
+const expressjs = require('express')
 const helmet = require('helmet')
-
-/**
- * Require the local modules that will be used.
- */
+const http = require('http')
 const routes = require('./routes.js')
 
 /**
- * Define the port for the application entry point to listen on.
- * Use port 1138 if environmental variable PORT is not defined.
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt MDN JavaScript parseInt}
+ * Instantiate the express.js application.
  */
-const port = parseInt(process.env.PORT, 10) || 1138
+function expressInstance () {
+  return new Promise(resolve => {
+    let express = expressjs()
+    resolve(express)
+  })
+}
 
 /**
- * Define all app configurations here except routes (define routes last).
- * Instantiate the Express application.
+ * Configure the express.js application.
+ * Define all express configurations here (except routes, define routes last).
+ * @param {Object} express The expressjs instance.
  */
-const app = express()
-app.use(helmet())
-app.use(cors())
-app.set('json spaces', 2)
+function expressConfigure (express) {
+  return new Promise(resolve => {
+    express.use(helmet())
+    express.use(cors())
+    express.set('json spaces', 2)
+    resolve()
+  })
+}
 
 /**
- * Define routes last, after all other configurations.
- * @param {object} app - The Express application instance.
+ * Define the express.js routes.
+ * @param {Object} express The expressjs instance.
+ * @see {@link https://expressjs.com/en/guide/routing.html Express routing}
  */
-routes(app)
+function expressRoutes (express) {
+  return new Promise(resolve => {
+    routes.router(express)
+    resolve()
+  })
+}
 
 /**
- * Listen for connections on the specified port.
- * @see {@link https://expressjs.com/en/api.html#app.listen Express API app.listen}
+ * Define the express.js error handling middleware.
+ * @param {Object} express The expressjs instance.
  */
-app.listen(parseInt(process.env.PORT, 10) || 1138, function () {
-  console.log('trackerTimer API listening.')
-}).on('error', function (err) {
-  console.log(err)
-  // TODO: If error, try again a number of times and then give up.
-})
+function expressErrors (express) {
+  return new Promise(resolve => {
+    express.use((req, res, next) => res.status(404).render('four, oh four!'))
+    express.use((err, req, res, next) => {
+      res.status(500).send('Something broke!')
+      console.log(err.message)
+    })
+    // express.on('error', err => console.log(err.message))
+    resolve()
+  })
+}
 
-module.exports = app // For testing with supertest
+/**
+ * Instantiate the http server.
+ * @param {Object} express The expressjs instance.
+ */
+function serverInstance (express) {
+  return new Promise(resolve => {
+    let server = http.Server(express)
+    resolve(server)
+  })
+}
+
+/**
+ * Listen for http server connections.
+ * @param {Object} server The http server instance.
+ */
+function serverListen (server) {
+  return new Promise(resolve => {
+    const port = parseInt(process.env.PORT, 10) || 1138
+    server.listen(port, () => {
+      console.log(`Server listening on port ${port}`)
+      resolve()
+    })
+  })
+}
+
+/**
+ * Create the API parts in proper order.
+ */
+async function create () {
+  let express = await expressInstance()
+  await expressConfigure(express)
+  await expressRoutes(express)
+  await expressErrors(express)
+  let server = await serverInstance(express)
+  await serverListen(server)
+}
+exports.create = create // For supertest
+
+create()
