@@ -51,7 +51,7 @@ function expressConfigure (express) {
  */
 function expressRoutes (express) {
   return new Promise(resolve => {
-    routes(express)
+    routes.router(express)
     resolve()
   })
 }

@@ -17,43 +17,31 @@ const phantomjs = require('phantomjs-prebuilt')
 const respond = require('./respond')
 const spawns = require('./spawns.js')
 
-/**
- * Router
- * @param {object} express - The Expressjs instance.
- * @see {@link https://expressjs.com/en/guide/routing.html Express routing}
- * @see {@link http://expressjs.com/en/api.html Express API}
- */
-const router = express => {
-  /**
-   * GET request to the root route. Responds with a JSend-compliant response.
-   * @function
-   * @memberof! routes.router
-   * @example
-   * const request = require("request");
-   * request("https://trackertimerapi.herokuapp.com/",
-   *   function(err, res, body) {
-   *     if (!err && res.statusCode == 200) {
-   *       console.log(body);
-   *     }
-   *   });
-   */
-  express.get('/', (req, res) => {
-    if (req.query.url !== undefined) {
-      // spawns.spawner('node', ['--version'])
-      spawns.spawner(phantomjs.path, [path.join(__dirname, 'confess.js'), req.query.url, 'performance'])
-        .then(output => {
-          respond.success(res, "Here's the output in a json object.", output)
-        })
-        .catch(err => {
-          console.log(err)
-          respond.error(res, err)
-        })
-    } else {
-      respond.success(res, 'This is the trackerTimer API server.', {
-        headers: req.headers
-      })
-    }
+function rootRoute (req, res) {
+  return new Promise(resolve => {
+    respond.success(res, 'This is the trackerTimer API server.', {
+      headers: req.headers
+    })
+    resolve()
   })
 }
 
-module.exports = router
+async function performanceReport (req, res) {
+  let output = await spawns.spawner(
+    phantomjs.path,
+    [path.join(__dirname, 'confess.js'), req.query.url, 'performance']
+  )
+  respond.success(res, "Here's the output in a json object.", output)
+}
+
+/**
+ * Define the expressjs routes.
+ * @param {object} express - The expressjs instance.
+ */
+function router (express) {
+  express.get('/', (req, res) => {
+    if (req.query.url !== undefined) performanceReport(req, res)
+    else rootRoute(req, res)
+  })
+}
+exports.router = router
