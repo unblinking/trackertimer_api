@@ -1,15 +1,20 @@
 {
-  "name": "trackerTimer",
+  "name": "trackerTimer_api",
   "version": "0.0.1",
-  "description": "Web front-end for phantomjs with confessjs",
+  "description": "API to provide network analysis of tracking elements.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nothingworksright/trackertimer_webapp.git"
+  },
   "main": "app.js",
   "author": "jmg1138 https://github.com/jmg1138",
   "license": "MIT",
   "readme": "README.md",
+  "engines": {
+    "node": "8.3.0"
+  },
   "dependencies": {
-    "bluebird": "3.5.0",
     "cors": "2.8.4",
-    "error-to-json": "1.1.0",
     "express": "4.15.4",
     "helmet": "3.8.1",
     "phantomjs-prebuilt": "2.1.14"

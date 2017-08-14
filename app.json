@@ -1,7 +1,13 @@
 {
-  "name": "trackerTimer",
-  "description": "Website tracker timer.",
+  "name": "trackerTimer API",
+  "description": "API to provide network analysis of tracking elements.",
+  "keywords": [
+    "node",
+    "website",
+    "tracker",
+    "timer"
+  ],
+  "website": "https://github.com/nothingworksright/trackertimer_api/blob/master/README.md",
   "repository": "https://github.com/nothingworksright/trackertimer_api",
-  "keywords": ["node", "website", "tracker", "timer"],
   "success_url": "/?url=https://www.github.com"
 }
