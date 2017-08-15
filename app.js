@@ -17,7 +17,6 @@
  */
 const cors = require('cors')
 const expressjs = require('express')
-const expressEnforcesSSL = require('express-enforces-ssl')
 const helmet = require('helmet')
 const http = require('http')
 const routes = require('./routes.js')
@@ -40,7 +39,6 @@ function expressInstance () {
 function expressConfigure (express) {
   return new Promise(resolve => {
     express.use(helmet())
-    if (process.env.NODE_ENV === 'production') express.use(expressEnforcesSSL())
     express.use(cors())
     express.set('json spaces', 2)
     resolve()
