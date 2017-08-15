@@ -43,6 +43,7 @@ function spawnTheChildProcess (proc) {
  */
 function handleSpawnedOutput (spawned) {
   return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('Gave up after 30 seconds.') }, 30000)
     let output = []
     spawned.stdout.on('data', data => {
       output = output.concat(data.toString('utf8').split(/\r?\n|\r/g))
@@ -50,6 +51,18 @@ function handleSpawnedOutput (spawned) {
     })
     spawned.stderr.on('data', data => reject(data))
     spawned.on('exit', () => resolve(output))
+  })
+}
+
+function cleanupSpawnedProcess (spawned) {
+  return new Promise(resolve => {
+    spawnTheChildProcess({'command': 'kill', 'argsArray': ['-9', spawned.pid]})
+    //
+    // TODO: Rewrite this workaround
+    // This is to kill the orphaned phantomjs process.
+    spawnTheChildProcess({'command': 'kill', 'argsArray': ['-9', spawned.pid + 1]})
+    //
+    resolve()
   })
 }
 
@@ -64,6 +77,7 @@ async function childProcess (command, argsArray) {
   proc = await handleNoCommandProvided(proc)
   let spawned = await spawnTheChildProcess(proc)
   let output = await handleSpawnedOutput(spawned)
+  cleanupSpawnedProcess(spawned)
   return output
 }
 exports.childProcess = childProcess
