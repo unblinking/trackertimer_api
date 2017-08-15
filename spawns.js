@@ -3,7 +3,7 @@
 'use strict'
 
 /**
- * Child process functions for the trackertimer.
+ * Child process functions for the trackertimer API.
  * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
@@ -59,11 +59,11 @@ function handleSpawnedOutput (spawned) {
  * @param  {Array} argsArray Command arguments (array of strings).
  * @return {Object} output
  */
-async function spawner (command, argsArray) {
+async function childProcess (command, argsArray) {
   let proc = {'command': command, 'argsArray': argsArray}
   proc = await handleNoCommandProvided(proc)
   let spawned = await spawnTheChildProcess(proc)
   let output = await handleSpawnedOutput(spawned)
   return output
 }
-exports.spawner = spawner
+exports.childProcess = childProcess

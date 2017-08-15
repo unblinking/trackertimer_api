@@ -17,7 +17,8 @@
     "cors": "2.8.4",
     "express": "4.15.4",
     "helmet": "3.8.1",
-    "phantomjs-prebuilt": "2.1.14"
+    "phantomjs-prebuilt": "2.1.14",
+    "valid-url": "1.0.9"
   },
   "devDependencies": {
     "codecov": "2.3.0",
