@@ -11,11 +11,13 @@
  * Modules that will be used.
  * @see {@link https://github.com/expressjs/cors cors}
  * @see {@link https://github.com/expressjs/express express}
+ * @see {@link https://github.com/aredo/express-enforces-ssl express-enforces-ssl}
  * @see {@link https://github.com/helmetjs helmet}
  * @see {@link https://nodejs.org/api/http.html http}
  */
 const cors = require('cors')
 const expressjs = require('express')
+const expressEnforcesSSL = require('express-enforces-ssl')
 const helmet = require('helmet')
 const http = require('http')
 const routes = require('./routes.js')
@@ -38,6 +40,7 @@ function expressInstance () {
 function expressConfigure (express) {
   return new Promise(resolve => {
     express.use(helmet())
+    if (process.env.NODE_ENV === 'production') express.use(expressEnforcesSSL())
     express.use(cors())
     express.set('json spaces', 2)
     resolve()

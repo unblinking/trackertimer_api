@@ -3,7 +3,7 @@
 'use strict'
 
 /**
- * Child process functions for the trackertimer.
+ * Child process functions for the trackertimer API.
  * @author {@link https://github.com/jmg1138 jmg1138}
  */
 
@@ -43,6 +43,7 @@ function spawnTheChildProcess (proc) {
  */
 function handleSpawnedOutput (spawned) {
   return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('Gave up after 30 seconds.') }, 30000)
     let output = []
     spawned.stdout.on('data', data => {
       output = output.concat(data.toString('utf8').split(/\r?\n|\r/g))
@@ -53,17 +54,30 @@ function handleSpawnedOutput (spawned) {
   })
 }
 
+function cleanupSpawnedProcess (spawned) {
+  return new Promise(resolve => {
+    spawnTheChildProcess({'command': 'kill', 'argsArray': ['-9', spawned.pid]})
+    //
+    // TODO: Rewrite this workaround
+    // This is to kill the orphaned phantomjs process.
+    spawnTheChildProcess({'command': 'kill', 'argsArray': ['-9', spawned.pid + 1]})
+    //
+    resolve()
+  })
+}
+
 /**
  * Spawn a child process using given command and arguments.
  * @param  {String} command Command to be spawned.
  * @param  {Array} argsArray Command arguments (array of strings).
  * @return {Object} output
  */
-async function spawner (command, argsArray) {
+async function childProcess (command, argsArray) {
   let proc = {'command': command, 'argsArray': argsArray}
   proc = await handleNoCommandProvided(proc)
   let spawned = await spawnTheChildProcess(proc)
   let output = await handleSpawnedOutput(spawned)
+  cleanupSpawnedProcess(spawned)
   return output
 }
-exports.spawner = spawner
+exports.childProcess = childProcess
