@@ -22,7 +22,7 @@ const http = require('http')
 const routes = require('./routes.js')
 
 /**
- * Instantiate the express.js application.
+ * Instantiate the expressjs application.
  */
 function expressInstance () {
   return new Promise(resolve => {
@@ -32,7 +32,7 @@ function expressInstance () {
 }
 
 /**
- * Configure the express.js application.
+ * Configure the expressjs application.
  * Define all express configurations here (except routes, define routes last).
  * @param {Object} express The expressjs instance.
  */
@@ -63,12 +63,11 @@ function expressRoutes (express) {
  */
 function expressErrors (express) {
   return new Promise(resolve => {
-    express.use((req, res, next) => res.status(404).render('four, oh four!'))
+    express.use((req, res, next) => res.status(404).send('four, oh four!'))
     express.use((err, req, res, next) => {
       res.status(500).send('Something broke!')
       console.log(err.message)
     })
-    // express.on('error', err => console.log(err.message))
     resolve()
   })
 }
