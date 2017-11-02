@@ -32,6 +32,10 @@ request(url, (err, res, body) => console.log(body))
 
 ℹ **Note**: *trackerTimer is an alpha, open-source project.*  
 
-## Show Your Support  
+## Show your support  
 
-Support this project by [making a pledge via Patreon](https://www.patreon.com/jmg1138).  
+Support this open source project and motivate me to continue development. Using [Beerpay.io](https://beerpay.io/nothingworksright/trackertimer?focus=wish) you can send me support, and make a wish for a new feature or issue fix.  
+
+[Click here to show your support](https://beerpay.io/nothingworksright/trackertimer?focus=wish).  
+
+[![Beerpay](https://beerpay.io/nothingworksright/trackertimer/badge.svg?style=beer)](https://beerpay.io/nothingworksright/trackertimer)  [![Beerpay](https://beerpay.io/nothingworksright/trackertimer/make-wish.svg?style=flat)](https://beerpay.io/nothingworksright/trackertimer?focus=wish)  
