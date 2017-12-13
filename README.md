@@ -31,7 +31,3 @@ request(url, (err, res, body) => console.log(body))
 ```
 
 ℹ **Note**: *trackerTimer is an alpha, open-source project.*  
-
-## Show Your Support  
-
-Support this project by [making a pledge via Patreon](https://www.patreon.com/jmg1138).  
