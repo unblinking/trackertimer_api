@@ -4,7 +4,7 @@
   "description": "API to provide network analysis of tracking elements.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nothingworksright/trackertimer_webapp.git"
+    "url": "https://github.com/unblinking/trackertimer_webapp.git"
   },
   "main": "app.js",
   "author": "jmg1138 https://github.com/jmg1138",
